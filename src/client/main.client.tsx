@@ -7,7 +7,7 @@ import DevGui from "./gui/dev"
 import SelectTeam from "./gui/guiSelectTeam"
 
 print(makeHello("main.client.ts"))
-
+/*
 function Main() {
     return (
         <screengui>
@@ -21,4 +21,4 @@ Roact.mount(<Main />, Players.LocalPlayer.WaitForChild("PlayerGui"), "Main")
 
 preGame()
 
-inGame()
+inGame()*/

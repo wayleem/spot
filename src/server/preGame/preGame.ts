@@ -1,4 +1,4 @@
-import { ReplicatedStorage, ServerStorage, Players, Teams } from "@rbxts/services"
+import { ServerStorage, Players, Teams, Workspace } from "@rbxts/services"
 import { store } from "shared/store"
 import { setPlayerData } from "shared/calc"
 import { GameStage, } from "shared/types"
@@ -12,7 +12,7 @@ const seeker = PlayerModels.WaitForChild("Seeker") as Model
 const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
-    assignTeam(Players.GetPlayers())
+    //assignTeam(Players.GetPlayers())
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
 }
@@ -20,7 +20,7 @@ export default function preGame() {
 function assignTeam(players: Player[]) {
 
     if (seekerTeam.GetPlayers().size() === 0) {
-        const player = players.remove(math.floor(math.random() * players.size())) as Player
+        const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
         player.Team = seekerTeam
 
         setCharacter(player, seekerTeam)
@@ -42,6 +42,7 @@ function setCharacter(player: Player, team: Team) {
     model = model.Clone()
     model.Name = player.Name
     player.Character = model
+    model.Parent = Workspace
     model.PivotTo(temp.GetPivot())
     temp.Destroy()
 

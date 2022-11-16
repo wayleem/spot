@@ -8,7 +8,8 @@ const INITIAL_STATE: State = {
     game_stage: GameStage.preGame,
     players: [],
     seekers: 0,
-    hiders: 0
+    hiders: 0,
+    countdown: 60
 }
 
 const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
@@ -27,5 +28,13 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
     }
 })
 
-export const store = new Store(reducer, {}, [Rodux.thunkMiddleware])
+export const store = new Store(reducer, {
+    game_stage: GameStage.preGame,
+    players: [],
+    seekers: 0,
+    hiders: 0,
+    countdown: 60
+}, [Rodux.loggerMiddleware])
+
+
 

@@ -10,43 +10,38 @@ export default function inGame() {
     const seekers = seekerTeam.GetPlayers()
     const hiders = hiderTeam.GetPlayers()
 
-    const hiderFolder = Workspace.WaitForChild("Hiders") as Folder
-    const seekerFolder = Workspace.WaitForChild("Seekers") as Folder
+    damage(seekers, hiders)
+    deathRattle(hiders)
+}
 
+
+function damage(seekers: Player[], hiders: Player[]) {
     RunService.Heartbeat.Connect(() => {
         seekers.forEach((seeker) => {
             const character = seeker.Character as Model
             const seekerRoot = character.WaitForChild("HumanoidRootPart") as Part
-
-
-            damage(seekerRoot, hiders)
-        })
-    })
-    //deathRattle(hiders)
-}
-
-function damage(seekerRoot: Part, hiders: Player[]) {
-    RunService.Heartbeat.Connect(() => {
-        hiders.forEach((hider) => {
-            const character = hider.Character as Model
-            const hiderRoot = character.WaitForChild("HumanoidRootPart") as Part
-            if (getDistance(seekerRoot, hiderRoot) <= 25) {
-                const Humanoid = hider.WaitForChild("Humanoid") as Humanoid
-                Humanoid.TakeDamage(1)
-            }
+            hiders.forEach((hider) => {
+                const character = hider.Character as Model
+                const hiderRoot = character.WaitForChild("HumanoidRootPart") as Part
+                if (getDistance(seekerRoot, hiderRoot) <= 25) {
+                    const Humanoid = hider.WaitForChild("Humanoid") as Humanoid
+                    Humanoid.TakeDamage(1)
+                }
+            })
         })
     })
 
 }
 
-function deathRattle(hiders: Model[]) {
+function deathRattle(hiders: Player[]) {
     hiders.forEach((hider) => {
         const Humanoid = hider.WaitForChild("Humanoid") as Humanoid
         Humanoid.Died.Connect(() => {
-            const HumanoidRootPart = hider.WaitForChild("HumanoidRootPart") as Part
+            const character = hider.Character as Model
+            const HumanoidRootPart = character.WaitForChild("HumanoidRootPart") as Part
             const corpse = hider.Clone()
             HumanoidRootPart.Anchored = true
-            setMaterial(hider)
+            setMaterial(character)
             print("died")
             //corpse.Parent = hider.Parent
             //hider.PivotTo(hider.GetPivot())

@@ -14,4 +14,5 @@ export interface GameState {
     players: Array<PlayerData>
     hiders: number
     seekers: number
+    countdown: number
 }
