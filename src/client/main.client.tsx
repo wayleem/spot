@@ -16,11 +16,8 @@ function Main() {
         </screengui>
     )
 }
-print(Players.LocalPlayer.Character)
-Players.LocalPlayer.CharacterAdded.Connect(() => {
-    print(Players.LocalPlayer.Character)
-    Roact.mount(<Main />, Players.LocalPlayer.WaitForChild("PlayerGui"), "Main")
-})
+Roact.mount(<Main />, Players.LocalPlayer.WaitForChild("PlayerGui"), "Main")
+
 
 preGame()
 

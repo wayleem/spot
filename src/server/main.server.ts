@@ -1,19 +1,28 @@
-import { makeHello } from "shared/calc";
-import { Workspace } from "@rbxts/services"
+import { makeHello, setPlayerData } from "shared/calc";
+import { Players, Teams } from "@rbxts/services"
 import preGame from "./preGame/preGame"
 import inGame from "./inGame/inGame"
+import { store } from "shared/store";
+import { GameStage } from "shared/types";
 
-type state = {
-    process: "preGame" | "inGame" | "postGame"
-}
 
-let seekerFolder = Workspace.WaitForChild("Seekers") as Folder
-let hiderFolder = Workspace.WaitForChild("Hiders") as Folder
-let intermissionFolder = Workspace.WaitForChild("Intermission") as Folder
 
+const intermissionTeam = Teams.WaitForChild("Intermission") as Team
 
 print(makeHello("main.server.ts"));
 
-[seekerFolder, hiderFolder, intermissionFolder] = preGame(seekerFolder, hiderFolder, intermissionFolder)
+playerJoinHandler(intermissionTeam)
 
-inGame(seekerFolder, hiderFolder)
+store.changed.connect((newState, oldState) => {
+    if (newState.game_stage === GameStage.preGame)
+        preGame()
+    if (newState.game_stage === GameStage.inGame)
+        inGame()
+})
+
+function playerJoinHandler(team: Team) {
+    Players.PlayerAdded.Connect((player) => {
+        const playerData = setPlayerData(player.UserId, team)
+        store.dispatch({ type: "add_player_data", player_data: playerData })
+    })
+}

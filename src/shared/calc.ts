@@ -1,3 +1,5 @@
+import { PlayerData } from "./types"
+
 export function makeHello(name: string) {
 	return `Hello from ${name}!`;
 }
@@ -35,4 +37,12 @@ export function setMaterial(player: Model) {
 			child.BrickColor = new BrickColor(1003)
 		}
 	})
+}
+
+export function setPlayerData(user_id: number, team: Team) {
+	const playerData: PlayerData = {
+		user_id: user_id,
+		player_team: team,
+	}
+	return playerData
 }

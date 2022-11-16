@@ -1,23 +1,17 @@
 export enum GameStage {
-    preGame,
-    inGame,
-    postGame
+    preGame = "preGame",
+    inGame = "inGame",
+    postGame = "postGame"
 }
 
-export interface GamePlayerState {
-    name: string
-    character_team: Folder
+export interface PlayerData {
+    user_id: number
     player_team: Team
 }
 
 export interface GameState {
     game_stage: GameStage
-}
-
-export type State = GamePlayerState | GameState
-
-export const INITIAL_STATE: State = {
-    game_stage: GameStage.preGame,
-    name: "test",
-
+    players: Array<PlayerData>
+    hiders: number
+    seekers: number
 }
