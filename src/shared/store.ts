@@ -1,6 +1,7 @@
 import * as actions from "./actions"
 import { GameState, GameStage } from "./types"
 import Rodux, { createReducer, Store } from "@rbxts/rodux"
+import { Players } from "@rbxts/services"
 
 export type State = GameState
 
@@ -18,12 +19,24 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
         return state
     },
     add_player_data: (state: State, action: actions.add_player_data) => {
-        state.players.push(action.player_data)
+        const player = Players.GetPlayerByUserId(action.player_data.user_id)
+        if (player) {
+            state.players.push(action.player_data)
+
+            player.SetAttribute("Team", action.player_data.player_team)
+            //more attributes
+        }
         return state
     },
     edit_player_data: (state: State, action: actions.edit_player_data) => {
-        const index = state.players.findIndex(player => player.user_id === action.player_data.user_id)
-        if (state.players[index]) state.players[index] = action.player_data
+        const player = Players.GetPlayerByUserId(action.player_data.user_id)
+        if (player) {
+            const index = state.players.findIndex(player => player.user_id === action.player_data.user_id)
+            if (state.players[index]) state.players[index] = action.player_data
+
+            player.SetAttribute("Team", action.player_data.player_team)
+            //more attributes
+        }
         return state
     }
 })
@@ -35,6 +48,3 @@ export const store = new Store(reducer, {
     hiders: 0,
     countdown: 60
 }, [Rodux.loggerMiddleware])
-
-
-
