@@ -4,6 +4,12 @@ export enum GameStage {
     postGame = "postGame"
 }
 
+export enum Team {
+    intermission = "intermission",
+    seeker = "seeker",
+    hider = "hider"
+}
+
 export interface PlayerData {
     user_id: number
     player_team: Team

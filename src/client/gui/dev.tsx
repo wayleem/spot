@@ -22,7 +22,7 @@ export default class DevGui extends Roact.PureComponent<object, State> {
         const player = state.players.find(player => player.user_id === Players.LocalPlayer.UserId)
         let team = "unknown"
 
-        if (player) team = player.player_team.Name
+        if (player) team = player.player_team
 
         return (
             <screengui Key="dev">

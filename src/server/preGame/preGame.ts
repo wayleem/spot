@@ -1,12 +1,9 @@
-import { ServerStorage, Players, Teams, Workspace } from "@rbxts/services"
+import { ServerStorage, Workspace } from "@rbxts/services"
 import { store } from "shared/store"
 import { setPlayerData } from "shared/calc"
-import { GameStage, } from "shared/types"
+import { GameStage, Team } from "shared/types"
 
 const PlayerModels = ServerStorage.WaitForChild("PlayerModels") as Folder
-
-const seekerTeam = Teams.WaitForChild("Seeker") as Team
-const hiderTeam = Teams.WaitForChild("Hider") as Team
 
 const seeker = PlayerModels.WaitForChild("Seeker") as Model
 const hider = PlayerModels.WaitForChild("Hider") as Model
@@ -18,17 +15,18 @@ export default function preGame() {
 }
 
 function assignTeam(players: Player[]) {
+    const state = store.getState()
 
-    if (seekerTeam.GetPlayers().size() === 0) {
+    if (state.seekers === 0) {
         const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
-        player.Team = seekerTeam
+        player.SetAttribute("Team", Team.seeker)
 
-        setCharacter(player, seekerTeam)
+        setCharacter(player, Team.seeker)
 
     } else players.forEach((player) => {
-        player.Team = hiderTeam
+        player.SetAttribute("Team", Team.hider)
 
-        setCharacter(player, hiderTeam)
+        setCharacter(player, Team.hider)
     })
 }
 
@@ -36,7 +34,7 @@ function setCharacter(player: Player, team: Team) {
     const temp = player.Character as Model
     let model = temp
 
-    if (team === seekerTeam) model = seeker
+    if (team === Team.seeker) model = seeker
     else model = hider
 
     model = model.Clone()

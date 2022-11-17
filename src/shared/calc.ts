@@ -1,4 +1,4 @@
-import { PlayerData } from "./types"
+import { PlayerData, Team } from "./types"
 
 export function makeHello(name: string) {
 	return `Hello from ${name}!`;
