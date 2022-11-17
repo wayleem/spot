@@ -9,15 +9,16 @@ const players = Players.GetPlayers() as Player[]
 
 print(makeHello("main.server.ts"));
 
-function playerJoinHandler(team: Team) {
+function playerJoinHandler() {
     Players.PlayerAdded.Connect((player) => {
-        const playerData = setPlayerData(player.UserId, team)
+        const playerData = setPlayerData(player.UserId, Team.intermission)
+
         player.SetAttribute("Team", Team.intermission)
         store.dispatch({ type: "add_player_data", player_data: playerData })
     })
 }
 StarterGui.SetCoreGuiEnabled("PlayerList", false)
-//playerJoinHandler(intermissionTeam)
+playerJoinHandler()
 
 store.changed.connect((newState, oldState) => {
     //run pregame if gamestage is pre

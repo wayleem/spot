@@ -4,14 +4,7 @@ import { getDistance, setMaterial } from "shared/calc"
 //import deathRattle from "./hider"
 
 export default function inGame() {
-    const seekerTeam = Teams.WaitForChild("Seeker") as Team
-    const hiderTeam = Teams.WaitForChild("Hider") as Team
 
-    const seekers = seekerTeam.GetPlayers()
-    const hiders = hiderTeam.GetPlayers()
-
-    damage(seekers, hiders)
-    deathRattle(hiders)
 }
 
 
