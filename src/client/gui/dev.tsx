@@ -19,15 +19,12 @@ export default class DevGui extends Roact.PureComponent<object, State> {
     render() {
         const state = store.getState()
 
-        const player = state.players.find(player => player.user_id === Players.LocalPlayer.UserId)
-        let team = "unknown"
-
-        if (player) team = player.player_team
+        const player = Players.LocalPlayer
 
         return (
             <screengui Key="dev">
                 <frame Position={new UDim2(0.013, 0, 0.409, 0)} Size={new UDim2(0, 160, 0, 160)}>
-                    <StatLabel name="Player Team" text={team} position={new UDim2(0, 0, 0.065, 0)} size={label_size}></StatLabel>
+                    <StatLabel name="Player Team" text={player.GetAttribute("Team")} position={new UDim2(0, 0, 0.065, 0)} size={label_size}></StatLabel>
                     <StatLabel name="Game Stage" text={state.game_stage} position={new UDim2(0, 0, 0.677, 0)} size={label_size}></StatLabel>
                 </frame>
             </screengui>

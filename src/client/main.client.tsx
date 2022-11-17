@@ -1,5 +1,5 @@
 import { makeHello } from "shared/calc"
-import { Players } from "@rbxts/services"
+import { Players, StarterGui } from "@rbxts/services"
 import Roact from "@rbxts/roact"
 import inGame from "./inGame/inGame"
 import preGame from "./preGame/preGame"
@@ -7,6 +7,7 @@ import DevGui from "./gui/dev"
 import SelectTeam from "./gui/guiSelectTeam"
 
 print(makeHello("main.client.ts"))
+StarterGui.SetCoreGuiEnabled("PlayerList", false)
 /*
 function Main() {
     return (

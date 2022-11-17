@@ -1,5 +1,5 @@
 import { makeHello, setPlayerData } from "shared/calc";
-import { Players, StarterGui } from "@rbxts/services"
+import { Players } from "@rbxts/services"
 import preGame from "./preGame/preGame"
 import inGame from "./inGame/inGame"
 import { store } from "shared/store";
@@ -13,11 +13,10 @@ function playerJoinHandler() {
     Players.PlayerAdded.Connect((player) => {
         const playerData = setPlayerData(player.UserId, Team.intermission)
 
-        player.SetAttribute("Team", Team.intermission)
         store.dispatch({ type: "add_player_data", player_data: playerData })
     })
 }
-StarterGui.SetCoreGuiEnabled("PlayerList", false)
+
 playerJoinHandler()
 
 store.changed.connect((newState, oldState) => {

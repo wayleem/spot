@@ -1,4 +1,4 @@
-import { ServerStorage, Workspace } from "@rbxts/services"
+import { ServerStorage, Workspace, Players } from "@rbxts/services"
 import { store } from "shared/store"
 import { setPlayerData } from "shared/calc"
 import { GameStage, Team } from "shared/types"
@@ -9,7 +9,8 @@ const seeker = PlayerModels.WaitForChild("Seeker") as Model
 const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
-    //assignTeam(Players.GetPlayers())
+    assignTeam(Players.GetPlayers())
+    const array = Players.GetAttributes()
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
 }
@@ -19,13 +20,10 @@ function assignTeam(players: Player[]) {
 
     if (state.seekers === 0) {
         const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
-        player.SetAttribute("Team", Team.seeker)
 
         setCharacter(player, Team.seeker)
 
     } else players.forEach((player) => {
-        player.SetAttribute("Team", Team.hider)
-
         setCharacter(player, Team.hider)
     })
 }

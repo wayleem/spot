@@ -1,3 +1,4 @@
+import { Players } from "@rbxts/services";
 import { PlayerData, Team } from "./types"
 
 export function makeHello(name: string) {
@@ -40,9 +41,15 @@ export function setMaterial(player: Model) {
 }
 
 export function setPlayerData(user_id: number, team: Team) {
+	const player = Players.GetPlayerByUserId(user_id)
+	if (player) {
+		player.SetAttribute("Team", team)
+	}
+
 	const playerData: PlayerData = {
 		user_id: user_id,
-		player_team: team,
+		player_team: team
 	}
+
 	return playerData
 }
