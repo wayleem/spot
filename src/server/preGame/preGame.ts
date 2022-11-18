@@ -9,10 +9,18 @@ const seeker = PlayerModels.WaitForChild("Seeker") as Model
 const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
-    assignTeam(Players.GetPlayers())
-    const array = Players.GetAttributes()
+    wait(5)
+    //print("start")
+    let players = getPlaying(Players.GetPlayers())
+    while (players.size() === 0) {
+        print("Can't start game with 0 players.")
+        wait(5)
+        players = getPlaying(Players.GetPlayers())
+    }
+    print("Game starting")
+    assignTeam(players)
 
-    store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
+    //store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
 }
 
 function assignTeam(players: Player[]) {
@@ -22,9 +30,12 @@ function assignTeam(players: Player[]) {
         const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
 
         setCharacter(player, Team.seeker)
+        print("set seeker")
 
-    } else players.forEach((player) => {
+    }
+    players.forEach((player) => {
         setCharacter(player, Team.hider)
+        print("set hider")
     })
 }
 
@@ -42,8 +53,17 @@ function setCharacter(player: Player, team: Team) {
     model.PivotTo(temp.GetPivot())
     temp.Destroy()
 
+    print("set character")
     const playerData = setPlayerData(player.UserId, team)
     store.dispatch({ type: "edit_player_data", player_data: playerData })
+}
+
+function getPlaying(players: Player[]) {
+    const playing_players = [] as Player[]
+    players.forEach((player) => {
+        if (player.Character) playing_players.push(player)
+    })
+    return playing_players
 }
 
 
