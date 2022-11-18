@@ -10,7 +10,6 @@ const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
     wait(5)
-    //print("start")
     let players = getPlaying(Players.GetPlayers())
     while (players.size() === 0) {
         print("Can't start game with 0 players.")
@@ -20,22 +19,19 @@ export default function preGame() {
     print("Game starting")
     assignTeam(players)
 
-    //store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
+    store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
 }
 
 function assignTeam(players: Player[]) {
     const state = store.getState()
 
-    if (state.seekers === 0) {
+    if (state.seekers.size() === 0) {
         const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
 
         setCharacter(player, Team.seeker)
-        print("set seeker")
-
     }
     players.forEach((player) => {
         setCharacter(player, Team.hider)
-        print("set hider")
     })
 }
 
@@ -65,26 +61,3 @@ function getPlaying(players: Player[]) {
     })
     return playing_players
 }
-
-
-/*
-function assignTeam(player: Player, team: any) {
-
-    switch (team) {
-        case "seeker":
-            player.Team = seekerTeam
-            setCharacter(player, seeker.Clone()).Parent = seekerFolder
-            break
-
-        case "hider":
-            player.Team = hiderTeam
-            setCharacter(player, hider.Clone()).Parent = hiderFolder
-            break
-    }
-}
-Players.PlayerAdded.Connect((player) => {
-    Workspace.WaitForChild(player.Name).Parent = intermissionFolder
-    player.Team = intermissionTeam
-})
-teamManager.OnServerEvent.Connect(assignTeam)
-*/

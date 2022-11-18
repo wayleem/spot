@@ -13,14 +13,14 @@ export enum Team {
 }
 
 export interface PlayerData {
-    user_id: number
-    player_team: Team
+    user_id: number,
+    player_team: Team,
 }
 
 export interface GameState {
     game_stage: GameStage
-    players: Array<PlayerData>
-    hiders: number
-    seekers: number
+    players: PlayerData[]
+    hiders: Player[]
+    seekers: Player[]
     countdown: number
 }
