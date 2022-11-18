@@ -17,7 +17,15 @@ function playerJoinHandler() {
     })
 }
 
+function playerLeaveHandler() {
+    Players.PlayerRemoving.Connect((player) => {
+
+    })
+}
+
+playerLeaveHandler()
 playerJoinHandler()
+
 
 //first cycle
 preGame()

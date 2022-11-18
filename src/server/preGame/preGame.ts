@@ -52,6 +52,7 @@ function setCharacter(player: Player, team: Team) {
     print("set character")
     const playerData = setPlayerData(player.UserId, team)
     store.dispatch({ type: "edit_player_data", player_data: playerData })
+    store.dispatch({ type: "add_playing_player", player: player, team: team })
 }
 
 function getPlaying(players: Player[]) {

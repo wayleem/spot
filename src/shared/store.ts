@@ -1,5 +1,5 @@
 import * as actions from "./actions"
-import { GameState, GameStage } from "./types"
+import { GameState, GameStage, Team, PlayerData } from "./types"
 import Rodux, { createReducer, Store } from "@rbxts/rodux"
 import { Players } from "@rbxts/services"
 
@@ -8,8 +8,8 @@ export type State = GameState
 const INITIAL_STATE: State = {
     game_stage: GameStage.preGame,
     players: [],
-    seekers: 0,
-    hiders: 0,
+    seekers: [],
+    hiders: [],
     countdown: 60
 }
 
@@ -19,23 +19,55 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
         return state
     },
     add_player_data: (state: State, action: actions.add_player_data) => {
-        const player = Players.GetPlayerByUserId(action.player_data.user_id)
-        if (player) {
-            state.players.push(action.player_data)
+        const player = Players.GetPlayerByUserId(action.player_data.user_id) as Player
 
-            player.SetAttribute("Team", action.player_data.player_team)
-            //more attributes
-        }
+        state.players.push(action.player_data)
+
+        player.SetAttribute("Team", action.player_data.player_team)
+        //more attributes
+
         return state
     },
     edit_player_data: (state: State, action: actions.edit_player_data) => {
-        const player = Players.GetPlayerByUserId(action.player_data.user_id)
-        if (player) {
-            const index = state.players.findIndex(player => player.user_id === action.player_data.user_id)
-            if (state.players[index]) state.players[index] = action.player_data
+        const index = state.players.findIndex(player => player.user_id === action.player_data.user_id)
+        const player = Players.GetPlayerByUserId(action.player_data.user_id) as Player
 
-            player.SetAttribute("Team", action.player_data.player_team)
-            //more attributes
+        if (index !== -1) state.players[index] = action.player_data
+
+        player.SetAttribute("Team", action.player_data.player_team)
+        //more attributes
+
+        return state
+    },
+    remove_player_data: (state: State, action: actions.remove_player_data) => {
+        const index = state.players.findIndex(player => player.user_id === action.user_id)
+
+        if (index !== -1) state.players.remove(index)
+
+        return state
+    },
+    add_playing_player: (state: State, action: actions.add_playing_player) => {
+        switch (action.team) {
+            case Team.hider:
+                state.hiders.push(action.player)
+                break
+            case Team.seeker:
+                state.seekers.push(action.player)
+                break
+        }
+        return state
+    },
+    remove_playing_player: (state: State, action: actions.remove_playing_player) => {
+        let index
+        switch (action.team) {
+            case Team.hider:
+                index = state.hiders.findIndex(hider => hider === action.player)
+                if (index !== -1) state.hiders.remove(index)
+                break
+            case Team.seeker:
+                index = state.seekers.findIndex(seeker => seeker === action.player)
+                if (index !== -1) state.seekers.remove(index)
+                break
         }
         return state
     }
@@ -44,7 +76,7 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
 export const store = new Store(reducer, {
     game_stage: GameStage.preGame,
     players: [],
-    seekers: 0,
-    hiders: 0,
+    seekers: [],
+    hiders: [],
     countdown: 60
 }, [Rodux.loggerMiddleware])
