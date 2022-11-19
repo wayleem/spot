@@ -4,6 +4,8 @@ import { getDistance, setMaterial } from "shared/calc"
 //import deathRattle from "./hider"
 
 export default function inGame() {
+    const hiders = [] as Player[]
+    const seekers = [] as Player[]
 
 }
 
