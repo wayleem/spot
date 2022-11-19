@@ -1,4 +1,6 @@
 import { makeHello } from "shared/calc"
+import { store } from "shared/store"
+import { GameStage } from "shared/types"
 import { Players, StarterGui } from "@rbxts/services"
 import Roact from "@rbxts/roact"
 import inGame from "./inGame/inGame"
@@ -22,4 +24,16 @@ Roact.mount(<Main />, Players.LocalPlayer.WaitForChild("PlayerGui"), "Main")
 
 preGame()
 
-inGame()*/
+inGame()
+
+store.changed.connect((newState, oldState) => {
+    if (newState.game_stage !== oldState.game_stage) {
+        //run pregame if gamestage is pre
+        if (newState.game_stage === GameStage.preGame)
+            preGame()
+        //run ingame if gamestage is ingame
+        if (newState.game_stage === GameStage.inGame)
+            inGame()
+    }
+})
+*/

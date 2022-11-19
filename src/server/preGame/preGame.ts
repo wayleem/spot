@@ -1,7 +1,8 @@
 import { ServerStorage, Workspace, Players } from "@rbxts/services"
 import { store } from "shared/store"
 import { setPlayerData } from "shared/calc"
-import { GameStage, Team } from "shared/types"
+import { GameStage, Team, GameState } from "shared/types"
+import * as log from "shared/logs"
 
 const PlayerModels = ServerStorage.WaitForChild("PlayerModels") as Folder
 
@@ -9,21 +10,29 @@ const seeker = PlayerModels.WaitForChild("Seeker") as Model
 const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
+    const state = store.getState()
     wait(5)
     let players = getPlaying(Players.GetPlayers())
     while (players.size() === 0) {
-        print("Can't start game with 0 players.")
+        log.warn("Can't start game with 0 players.")
         wait(5)
         players = getPlaying(Players.GetPlayers())
     }
-    print("Game starting")
-    assignTeam(players)
+    log.debug("Assigning teams...")
+    assignTeam(players, state)
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
 }
 
-function assignTeam(players: Player[]) {
-    const state = store.getState()
+function loading(state: Readonly<GameState>) {
+    while (state.timer !== 0) {
+        store.dispatch({ type: "decrement_game_time" })
+        wait(1)
+    }
+    store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
+}
+
+function assignTeam(players: Player[], state: Readonly<GameState>) {
 
     if (state.seekers.size() === 0) {
         const player = players.remove(math.floor(math.random() * (players.size() - 1))) as Player
@@ -33,6 +42,7 @@ function assignTeam(players: Player[]) {
     players.forEach((player) => {
         setCharacter(player, Team.hider)
     })
+    log.debug("Teams assigned.")
 }
 
 function setCharacter(player: Player, team: Team) {
@@ -49,7 +59,6 @@ function setCharacter(player: Player, team: Team) {
     model.PivotTo(temp.GetPivot())
     temp.Destroy()
 
-    print("set character")
     const playerData = setPlayerData(player.UserId, team)
     store.dispatch({ type: "edit_player_data", player_data: playerData })
     store.dispatch({ type: "add_playing_player", player: player, team: team })

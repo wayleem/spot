@@ -12,7 +12,11 @@ export type add_playing_player = { type: "add_playing_player", player: Player, t
 
 export type remove_playing_player = { type: "remove_playing_player", player: Player, team: Team }
 
-export type actions = set_game_stage | add_player_data | edit_player_data | remove_player_data | add_playing_player | remove_playing_player
+export type decrement_game_time = { type: "decrement_game_time" }
+
+export type set_game_time = { type: "set_game_time", timer: number }
+
+export type actions = set_game_stage | add_player_data | edit_player_data | remove_player_data | add_playing_player | remove_playing_player | decrement_game_time | set_game_time
 
 
 /*
