@@ -6,22 +6,22 @@ import Roact from "@rbxts/roact"
 import inGame from "./inGame/inGame"
 import preGame from "./preGame/preGame"
 import DevGui from "./gui/dev"
-import SelectTeam from "./gui/guiSelectTeam"
+import TimerGui from "./gui/guiTimer"
 
 print(makeHello("main.client.ts"))
 StarterGui.SetCoreGuiEnabled("PlayerList", false)
-/*
+
 function Main() {
     return (
         <screengui>
-            <SelectTeam></SelectTeam>
+            <TimerGui></TimerGui>
             <DevGui></DevGui>
         </screengui>
     )
 }
 Roact.mount(<Main />, Players.LocalPlayer.WaitForChild("PlayerGui"), "Main")
 
-
+/*
 preGame()
 
 inGame()
