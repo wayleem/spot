@@ -11,13 +11,8 @@ const hider = PlayerModels.WaitForChild("Hider") as Model
 
 export default function preGame() {
     const state = store.getState()
-    wait(5)
-    let players = getPlaying(Players.GetPlayers())
-    while (players.size() === 0) {
-        log.warn("Can't start game with 0 players.")
-        wait(5)
-        players = getPlaying(Players.GetPlayers())
-    }
+    const players = loading(state) as Player[]
+
     log.debug("Assigning teams...")
     assignTeam(players, state)
 
@@ -29,7 +24,13 @@ function loading(state: Readonly<GameState>) {
         store.dispatch({ type: "decrement_game_time" })
         wait(1)
     }
-    store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
+    const players = getPlaying(Players.GetPlayers())
+
+    if (players.size() === 0) {
+        log.warn("Can't start game with 0 players.")
+        loading(state)
+
+    } else return players
 }
 
 function assignTeam(players: Player[], state: Readonly<GameState>) {
