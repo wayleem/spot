@@ -1,7 +1,5 @@
 import Roact from "@rbxts/roact"
-import { Players } from "@rbxts/services"
 import { store, State } from "shared/store"
-import * as logs from "shared/logs"
 import { Signal } from "@rbxts/rodux"
 
 type Props = {

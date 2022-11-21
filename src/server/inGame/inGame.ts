@@ -1,4 +1,4 @@
-import { RunService, Teams, Workspace } from "@rbxts/services"
+import { RunService } from "@rbxts/services"
 import { getDistance, setMaterial } from "shared/calc"
 //import damage from "./seeker"
 //import deathRattle from "./hider"

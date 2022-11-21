@@ -1,7 +1,7 @@
 import * as actions from "./actions"
-import { GameState, GameStage, Team, PlayerData } from "./types"
+import { GameState, GameStage, Team } from "./types"
 import Rodux, { createReducer, Store } from "@rbxts/rodux"
-import { Players, ReplicatedFirst } from "@rbxts/services"
+import { Players } from "@rbxts/services"
 
 export type State = GameState
 
