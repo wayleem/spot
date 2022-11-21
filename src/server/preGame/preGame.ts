@@ -5,7 +5,7 @@ import assignTeam from "./assignTeamModule"
 import loading from "./loadingModule"
 import * as log from "shared/logs"
 
-const RemoteEvent = ReplicatedStorage.WaitForChild("timer") as RemoteEvent
+const StateChangeEvent = ReplicatedStorage.WaitForChild("StateChanges") as RemoteEvent
 
 export default function preGame() {
     const state = store.getState()
@@ -15,5 +15,6 @@ export default function preGame() {
     assignTeam(players, state)
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
-    RemoteEvent.FireAllClients(state)
+    StateChangeEvent.FireAllClients(state)
+
 }

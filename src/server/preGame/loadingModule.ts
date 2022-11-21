@@ -3,16 +3,16 @@ import { store } from "shared/store"
 import { GameState } from "shared/types"
 import * as log from "shared/logs"
 
-const timerEvent = ReplicatedStorage.WaitForChild("timer") as RemoteEvent
+const StateChangeEvent = ReplicatedStorage.WaitForChild("StateChanges") as RemoteEvent
 
 export default function loading(state: Readonly<GameState>) {
     while (state.timer !== 0) {
         store.dispatch({ type: "decrement_game_time" })
-        timerEvent.FireAllClients(state)
+        StateChangeEvent.FireAllClients(state)
         wait(1)
     }
     store.dispatch({ type: "set_game_time", timer: 30 })
-    timerEvent.FireAllClients(state)
+    StateChangeEvent.FireAllClients(state)
 
     const players = getPlaying(Players.GetPlayers())
 

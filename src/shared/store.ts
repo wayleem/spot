@@ -1,7 +1,7 @@
 import * as actions from "./actions"
 import { GameState, GameStage, Team, PlayerData } from "./types"
 import Rodux, { createReducer, Store } from "@rbxts/rodux"
-import { Players } from "@rbxts/services"
+import { Players, ReplicatedFirst } from "@rbxts/services"
 
 export type State = GameState
 
@@ -55,6 +55,7 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
                 state.seekers.push(action.player)
                 break
         }
+
         return state
     },
     remove_playing_player: (state: State, action: actions.remove_playing_player) => {
@@ -69,14 +70,17 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
                 if (index !== -1) state.seekers.remove(index)
                 break
         }
+
         return state
     },
-    decrement_game_time: (state: State, action: actions.decrement_game_time) => {
+    decrement_game_time: (state: State) => {
         state.timer = state.timer - 1
+
         return state
     },
     set_game_time: (state: State, action: actions.set_game_time) => {
         state.timer = action.timer
+
         return state
     }
 })

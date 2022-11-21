@@ -1,5 +1,5 @@
 import { makeHello, setPlayerData } from "shared/calc";
-import { Players } from "@rbxts/services"
+import { Players, ReplicatedStorage } from "@rbxts/services"
 import preGame from "./preGame/preGame"
 import inGame from "./inGame/inGame"
 import { store } from "shared/store";

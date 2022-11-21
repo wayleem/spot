@@ -12,8 +12,9 @@ import * as logs from "shared/logs"
 
 print(makeHello("main.client.ts"))
 
-const timerEvent = ReplicatedStorage.WaitForChild("timer") as RemoteEvent
+const StateChangeEvent = ReplicatedStorage.WaitForChild("StateChanges") as RemoteEvent
 const PlayerGui = Players.LocalPlayer.WaitForChild("PlayerGui")
+
 StarterGui.SetCoreGuiEnabled("PlayerList", false)
 
 function Main() {
@@ -26,7 +27,7 @@ function Main() {
 }
 Roact.mount(<Main />, PlayerGui, "Main")
 
-timerEvent.OnClientEvent.Connect((state) => ClientStoreHandler(state))
+StateChangeEvent.OnClientEvent.Connect((state) => ClientStoreHandler(state))
 
 function ClientStoreHandler(state: Readonly<GameState>) {
     store.dispatch({ type: "set_game_time", timer: state.timer })
