@@ -1,22 +1,35 @@
 import Roact from "@rbxts/roact"
 import { Players } from "@rbxts/services"
 import { store, State } from "shared/store"
+import * as logs from "shared/logs"
+import { Signal } from "@rbxts/rodux"
 
 type Props = {
     text: string
 }
 
+type localState = Pick<
+    State,
+    "timer">
+
 export default class TimerGui extends Roact.PureComponent<object, State> {
-    constructor(o: object) {
-        super(o)
+    unsubscribe?: Signal
+
+    didMount() {
+        this.unsubscribe = store.changed.connect((newState) => {
+            this.setState({
+                timer: newState.timer
+            })
+        })
+    }
+    willUnmount() {
+        if (this.unsubscribe) this.unsubscribe.disconnect()
     }
 
     render() {
-        const state = store.getState()
-
         return (
             <screengui Key="timer">
-                <TimerLabel text={"" + state.timer}></TimerLabel>
+                <TimerLabel text={"" + this.state.timer}></TimerLabel>
             </screengui>
         )
     }

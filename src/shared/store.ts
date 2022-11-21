@@ -10,7 +10,7 @@ const INITIAL_STATE: State = {
     players: [],
     seekers: [],
     hiders: [],
-    timer: 60
+    timer: 30
 }
 
 const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
@@ -86,5 +86,5 @@ export const store = new Store(reducer, {
     players: [],
     seekers: [],
     hiders: [],
-    timer: 60
+    timer: 30
 }, [Rodux.loggerMiddleware])

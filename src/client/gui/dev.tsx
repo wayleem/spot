@@ -17,7 +17,7 @@ export default class DevGui extends Roact.PureComponent<object, State> {
     }
 
     render() {
-        const state = store.getState()
+        const localStore = store.getState()
 
         const player = Players.LocalPlayer
 
@@ -25,7 +25,7 @@ export default class DevGui extends Roact.PureComponent<object, State> {
             <screengui Key="dev">
                 <frame Position={new UDim2(0.013, 0, 0.409, 0)} Size={new UDim2(0, 160, 0, 160)}>
                     <StatLabel name="Player Team" text={player.GetAttribute("Team")} position={new UDim2(0, 0, 0.065, 0)} size={label_size}></StatLabel>
-                    <StatLabel name="Game Stage" text={state.game_stage} position={new UDim2(0, 0, 0.677, 0)} size={label_size}></StatLabel>
+                    <StatLabel name="Game Stage" text={localStore.game_stage} position={new UDim2(0, 0, 0.677, 0)} size={label_size}></StatLabel>
                 </frame>
             </screengui>
         )
