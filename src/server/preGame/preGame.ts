@@ -1,8 +1,11 @@
 import { store } from "shared/store"
 import { GameStage } from "shared/types"
+import { ReplicatedStorage } from "@rbxts/services"
 import assignTeam from "./assignTeamModule"
 import loading from "./loadingModule"
 import * as log from "shared/logs"
+
+const RemoteEvent = ReplicatedStorage.WaitForChild("timer") as RemoteEvent
 
 export default function preGame() {
     const state = store.getState()
@@ -12,4 +15,5 @@ export default function preGame() {
     assignTeam(players, state)
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
+    RemoteEvent.FireAllClients(state)
 }

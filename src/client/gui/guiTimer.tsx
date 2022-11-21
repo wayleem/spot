@@ -12,7 +12,7 @@ type localState = Pick<
     State,
     "timer">
 
-export default class TimerGui extends Roact.PureComponent<object, State> {
+export default class TimerGui extends Roact.PureComponent<object, localState> {
     unsubscribe?: Signal
 
     didMount() {

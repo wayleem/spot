@@ -1,7 +1,7 @@
 import { makeHello } from "shared/calc"
 import { ReplicatedStorage } from "@rbxts/services"
 import { store } from "shared/store"
-import { GameStage } from "shared/types"
+import { GameStage, GameState } from "shared/types"
 import { Players, StarterGui } from "@rbxts/services"
 import Roact from "@rbxts/roact"
 import inGame from "./inGame/inGame"
@@ -18,7 +18,7 @@ StarterGui.SetCoreGuiEnabled("PlayerList", false)
 
 function Main() {
     return (
-        <screengui>
+        <screengui ResetOnSpawn={false}>
             <TimerGui></TimerGui>
             <DevGui></DevGui>
         </screengui>
@@ -26,10 +26,11 @@ function Main() {
 }
 Roact.mount(<Main />, PlayerGui, "Main")
 
-timerEvent.OnClientEvent.Connect(() => decrementTimer())
+timerEvent.OnClientEvent.Connect((state) => ClientStoreHandler(state))
 
-function decrementTimer() {
-    store.dispatch({ type: "decrement_game_time" })
+function ClientStoreHandler(state: Readonly<GameState>) {
+    store.dispatch({ type: "set_game_time", timer: state.timer })
+    store.dispatch({ type: "set_game_stage", game_stage: state.game_stage })
 }
 
 /*

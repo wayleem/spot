@@ -7,10 +7,13 @@ const timerEvent = ReplicatedStorage.WaitForChild("timer") as RemoteEvent
 
 export default function loading(state: Readonly<GameState>) {
     while (state.timer !== 0) {
-        timerEvent.FireAllClients(state.timer)
         store.dispatch({ type: "decrement_game_time" })
+        timerEvent.FireAllClients(state)
         wait(1)
     }
+    store.dispatch({ type: "set_game_time", timer: 30 })
+    timerEvent.FireAllClients(state)
+
     const players = getPlaying(Players.GetPlayers())
 
     if (players.size() === 0) {

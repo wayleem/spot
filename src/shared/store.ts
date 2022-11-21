@@ -76,7 +76,7 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
         return state
     },
     set_game_time: (state: State, action: actions.set_game_time) => {
-        state.timer = state.timer
+        state.timer = action.timer
         return state
     }
 })
