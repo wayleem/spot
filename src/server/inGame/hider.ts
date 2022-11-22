@@ -1,13 +1,14 @@
 import { setMaterial } from "shared/calc"
 
-export default function deathRattle(hiders: Model[]) {
+export function deathRattle(hiders: Player[]) {
     hiders.forEach((hider) => {
         const Humanoid = hider.WaitForChild("Humanoid") as Humanoid
         Humanoid.Died.Connect(() => {
-            const HumanoidRootPart = hider.WaitForChild("HumanoidRootPart") as Part
+            const character = hider.Character as Model
+            const HumanoidRootPart = character.WaitForChild("HumanoidRootPart") as Part
             const corpse = hider.Clone()
             HumanoidRootPart.Anchored = true
-            setMaterial(hider)
+            setMaterial(character)
             print("died")
             //corpse.Parent = hider.Parent
             //hider.PivotTo(hider.GetPivot())
