@@ -8,7 +8,7 @@ import { deathRattle } from "./hider"
 export default function inGame() {
     const state = store.getState()
     while (state.game_stage === GameStage.inGame) {
-        task.spawn(() => damage(state.seekers, state.hiders))
+        damage(state.seekers, state.hiders)
         deathRattle(state.hiders)
     }
 
