@@ -19,7 +19,7 @@ export interface PlayerData {
 export interface GameState {
     game_stage: GameStage
     players: PlayerData[]
-    hiders: Player[]
-    seekers: Player[]
+    hiders: Model[]
+    seekers: Model[]
     timer: number
 }

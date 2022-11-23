@@ -82,6 +82,10 @@ const reducer = createReducer<State, actions.actions>(INITIAL_STATE, {
         state.timer = action.timer
 
         return state
+    },
+    set_store: (state: State, action: actions.set_store) => {
+        state = action.GameState
+        return state
     }
 })
 

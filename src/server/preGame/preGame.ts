@@ -16,5 +16,4 @@ export default function preGame() {
 
     store.dispatch({ type: "set_game_stage", game_stage: GameStage.inGame })
     StateChangeEvent.FireAllClients(state)
-
 }

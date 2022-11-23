@@ -1,9 +1,10 @@
 import { makeHello, setPlayerData } from "shared/calc";
-import { Players } from "@rbxts/services"
+import { LogService, Players } from "@rbxts/services"
 import preGame from "./preGame/preGame"
 import inGame from "./inGame/inGame"
 import { store } from "shared/store";
 import { GameStage, Team } from "shared/types";
+import * as logs from "shared/logs"
 
 const players = Players.GetPlayers() as Player[]
 
@@ -31,12 +32,16 @@ playerJoinHandler()
 preGame()
 
 store.changed.connect((newState, oldState) => {
-    if (newState.game_stage !== oldState.game_stage) {
-        //run pregame if gamestage is pre
-        if (newState.game_stage === GameStage.preGame)
-            preGame()
-        //run ingame if gamestage is ingame
-        if (newState.game_stage === GameStage.inGame)
-            inGame()
+
+    //run pregame if gamestage is pre
+    if (newState.game_stage === GameStage.preGame) {
+        logs.debug("transitioning to pregame...")
+        preGame()
     }
+    //run ingame if gamestage is ingame
+    if (newState.game_stage === GameStage.inGame) {
+        logs.debug("transitioning to ingame...")
+        inGame()
+    }
+
 })

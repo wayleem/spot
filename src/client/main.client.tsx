@@ -30,8 +30,7 @@ Roact.mount(<Main />, PlayerGui, "Main")
 StateChangeEvent.OnClientEvent.Connect((state) => ClientStoreHandler(state))
 
 function ClientStoreHandler(state: Readonly<GameState>) {
-    store.dispatch({ type: "set_game_time", timer: state.timer })
-    store.dispatch({ type: "set_game_stage", game_stage: state.game_stage })
+    store.dispatch({ type: "set_store", GameState: state })
 }
 
 /*
