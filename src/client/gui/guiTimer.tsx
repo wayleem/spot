@@ -8,7 +8,7 @@ type Props = {
 
 type localState = Pick<
     State,
-    "timer">
+    "time">
 
 export default class TimerGui extends Roact.PureComponent<object, localState> {
     unsubscribe?: Signal
@@ -16,7 +16,7 @@ export default class TimerGui extends Roact.PureComponent<object, localState> {
     didMount() {
         this.unsubscribe = store.changed.connect((newState) => {
             this.setState({
-                timer: newState.timer
+                time: newState.time
             })
         })
     }
@@ -27,7 +27,7 @@ export default class TimerGui extends Roact.PureComponent<object, localState> {
     render() {
         return (
             <screengui Key="timer">
-                <TimerLabel text={"" + this.state.timer}></TimerLabel>
+                <TimerLabel text={"" + this.state.time}></TimerLabel>
             </screengui>
         )
     }

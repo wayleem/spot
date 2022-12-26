@@ -21,5 +21,5 @@ export interface GameState {
     players: PlayerData[]
     hiders: Model[]
     seekers: Model[]
-    timer: number
+    time: number
 }
