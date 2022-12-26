@@ -1,23 +1,31 @@
-import { Workspace, RunService, Players, Teams } from "@rbxts/services"
+import { LogService, RunService, Players } from "@rbxts/services"
+import { getDistance, setMaterial } from "shared/calc"
+import { store } from "shared/store"
+import { GameStage, Team, PlayerData } from "shared/types"
+import * as logs from "shared/logs"
 import seekerView from "./seeker"
 
-const seekerFolder = Workspace.WaitForChild("Seekers") as Folder
-const hiderFolder = Workspace.WaitForChild("Hiders") as Folder
-
-let seekers = seekerFolder.GetChildren() as Model[]
-let hiders = hiderFolder.GetChildren() as Model[]
-
-const seekerTeam = Teams.WaitForChild("Seeker") as Team
-const hiderTeam = Teams.WaitForChild("Hider") as Team
-
 export default function inGame() {
+    const state = store.getState()
     RunService.Heartbeat.Connect(() => {
-        seekers = seekerFolder.GetChildren() as Model[]
-        hiders = hiderFolder.GetChildren() as Model[]
-        switch (Players.LocalPlayer.Team) {
-            case seekerTeam:
-                seekerView(seekers, hiders)
-                break
+        if (state.game_stage === GameStage.inGame) {
+            const allPlayers = state.players as PlayerData[]
+            const seekers = state.seekers as Model[]
+            const hiders = state.hiders as Model[]
+            switch (checkTeam(Players.LocalPlayer.UserId, allPlayers)) {
+                case Team.seeker:
+                    seekerView(seekers, hiders)
+                    break
+            }
         }
     })
+}
+
+function getTeam(userid: number, allPlayers: PlayerData[]) {
+    function isPlaying(player: PlayerData) {
+        if (player.user_id === userid) return true
+        else return false
+    }
+    const index = allPlayers.findIndex(isPlaying)
+    return allPlayers[index].player_team
 }
