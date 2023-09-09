@@ -1,3 +1,7 @@
+# Project Site
+
+https://stonybrook.digication.com/est-310-project-1/home
+
 # **SPOT**
 
 ### **HIDE AND SEEK ROBLOX GAME**
