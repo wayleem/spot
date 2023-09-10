@@ -17,6 +17,7 @@ The seeker is blind and must traverse the map until it captures a hider within i
 
 ### Hider gameplay
 The hider has an advantage of knowing where the seeker is but can only travel on foot. Hiders have a mobility disadvantage.
+
 <img src="https://github.com/wayleem/spot/blob/main/assets/spot3.gif" width="500" height="500"/>
 
 ## Project Outline 
