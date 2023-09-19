@@ -1,6 +1,6 @@
 # Spot
 
-A hide and seek game made with Roblox Studio for a Stony Brook related course. Project outline is to rapidly prototype a game that virtualizes an existing physical game. The goal of the project is to create an online game out of the game hide and seek. The premise of the game is hide and seek with a glaring spotlight as the seeker to light up the space in order to find the hiders. Plugins associated with Roblox Studio were used to incorporate the use of TypeScript. This simple prototype's lifespan to playtest presentation was about 2-3 weeks.
+A hide and seek game made with Roblox Studio for a Stony Brook related course. Project outline is to rapidly prototype a game that virtualizes an existing physical game. The goal of the project is to create an online game out of the game hide and seek. The premise of the game is hide and seek with a glaring spotlight as the seeker to light up the space in order to find the hiders. Plugins associated with Roblox Studio were used to incorporate the use of TypeScript. This simple prototype's lifespan to playtest presentation was about < 2 weeks.
 
 ## Preview
 Here are some gifs demonstating the game's functionality.
